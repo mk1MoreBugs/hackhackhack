@@ -1,0 +1,55 @@
+services:
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: ./Dockerfile
+    restart: on-failure:3
+    depends_on:
+      - db
+    environment:
+      POSTGRES_PASSWORD_FILE: &postgres-password-file /run/secrets/postgres_password
+    env_file: &env-file
+      - .env
+    secrets: &postgres-secret
+      - postgres_password
+    volumes:
+      - "./backend:/backend"
+    networks:
+      - app-network
+
+  db:
+    image: postgres:18.0-alpine
+    restart: on-failure:3
+    shm_size: 128mb
+    volumes:
+      - db_volume:/data/postgres
+    environment:
+      PGDATA: /data/postgres
+      POSTGRES_PASSWORD_FILE: *postgres-password-file
+    env_file: *env-file
+    secrets: *postgres-secret
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile.dev
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    env_file: *env-file
+
+volumes:
+  db_volume:
+
+secrets:
+   postgres_password:
+     file: db_password.txt
+
+networks:
+  app-network:
+    driver: bridge

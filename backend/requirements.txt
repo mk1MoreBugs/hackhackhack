@@ -1,0 +1,35 @@
+# python -m pip install -r requirements.txt
+
+
+# FastAPI
+fastapi[all]
+
+
+# Pydantic
+pydantic
+
+# SQLAlchemy
+alembic
+sqlmodel
+psycopg[binary,pool]
+pgvector
+
+# PyJWT, bcrypt
+PyJWT
+bcrypt
+
+# ======================
+# ИСКУССТВЕННЫЙ ИНТЕЛЛЕКТ И ЭМБЕДДИНГИ
+# ======================
+sentence-transformers
+numpy
+
+# ======================
+# ПАРСИНГ И РАБОТА С ДАННЫМИ
+# ======================
+requests
+beautifulsoup4
+pdfplumber
+pypdf2
+
+python-multipart

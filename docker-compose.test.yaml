@@ -1,0 +1,6 @@
+services:
+  backend:
+    environment:
+      ENVIRONMENT: test
+      POSTGRES_DB: test_database
+    entrypoint: ["/backend/app/tests/docker-entrypoint-test.sh"]
