@@ -65,7 +65,7 @@ class DocumentChunk(TimestampModel, table=True):
 
     # Векторное представление
     embedding: Optional[Any] = Field(
-        sa_type=Vector(1024),  # Vector(384) для 1024-мерных векторов
+        sa_type=Vector(1024),  # Vector(384) для 384-мерных векторов
         description="Векторное представление текста"
     )
 
