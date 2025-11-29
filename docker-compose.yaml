@@ -18,7 +18,7 @@ services:
       - app-network
 
   db:
-    image: postgres:18.0-alpine
+    image: pgvector/pgvector:pg18-trixie
     restart: on-failure:3
     shm_size: 128mb
     volumes:

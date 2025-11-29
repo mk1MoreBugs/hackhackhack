@@ -70,12 +70,6 @@ class Settings(BaseSettings):
             path=self.POSTGRES_DB,
         )
 
-    VALKEY_SERVER: str
-    VALKEY_PORT: int
-    VALKEY_USER: str | None = None
-    VALKEY_PASSWORD: str | None = None
-    VALKEY_DB: str = ""
-
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis" or not value:
             message = (
@@ -91,8 +85,6 @@ class Settings(BaseSettings):
     def _enforce_non_default_secrets(self) -> Self:
         self._check_default_secret("SECRET_KEY", self.SECRET_KEY)
         self._check_default_secret("POSTGRES_PASSWORD", self.POSTGRES_PASSWORD)
-        self._check_default_secret("POSTGRES_PASSWORD", self.VALKEY_PASSWORD)
-
         return self
 
 
