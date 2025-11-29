@@ -51,7 +51,7 @@ class PDFProcessor:
             self,
             text: str,
             pages_data: List[Dict],
-            chunk_size: int = 500,
+            chunk_size: int = 200,
             overlap: int = 50
     ) -> List[Dict]:
         """
@@ -197,7 +197,7 @@ class PDFProcessor:
         document = document_crud.create_document(document_data)
 
         # Шаг 5: Разбивка на чанки
-        chunks = self.split_text_into_chunks(full_text, pages_data, chunk_size=300, overlap=100)
+        chunks = self.split_text_into_chunks(full_text, pages_data, chunk_size=400, overlap=50)
 
         # Шаг 6: Вычисление эмбеддингов
         chunks_with_embeddings = self.compute_embeddings(chunks)

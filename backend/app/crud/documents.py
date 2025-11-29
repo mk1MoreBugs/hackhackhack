@@ -117,13 +117,12 @@ class DocumentChunkCRUD:
                 DocumentChunk.page_number,
                 Document.title.label("document_title"),
                 Document.doc_number,
-                (1.0 - DocumentChunk.embedding.cosine_distance(query_embedding)).label("similarity")
+                (DocumentChunk.embedding.cosine_distance(query_embedding)).label("dissimilarity")
             )
             .join(Document)
-            .order_by((1.0 - DocumentChunk.embedding.cosine_distance(query_embedding)).desc())
+            .order_by((DocumentChunk.embedding.cosine_distance(query_embedding))) #.desc()
             .limit(limit)
         )
-        print(statement)
         results = self.session.exec(statement).all()
 
         return [
@@ -133,7 +132,7 @@ class DocumentChunkCRUD:
                 "page_number": row.page_number,
                 "document_title": row.document_title,
                 "doc_number": row.doc_number,
-                "similarity": float(row.similarity)
+                "similarity": (1.0 - float(row.dissimilarity))
             }
-            for row in results if float(row.similarity) <= min_similarity
+            for row in results if row.dissimilarity <= (1 - min_similarity)
         ]
