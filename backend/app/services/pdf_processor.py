@@ -11,11 +11,10 @@ from app.crud.documents import DocumentCRUD, DocumentChunkCRUD
 
 class PDFProcessor:
     def __init__(self):
-        print("!!!111!!!")
-        self.embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+        self.embedding_model = SentenceTransformer('ai-forever/sbert_large_nlu_ru') # sentence-transformers/all-MiniLM-L6-v2
 
     def search_query(self, query:str):
-        self.embedding_model.encode([query])[0].tolist()
+        return self.embedding_model.encode([query])[0].tolist()
 
     # Шаг 1: Чтение PDF файла
     def read_pdf_from_binary(self, file_binary: bytes) -> tuple[str, List[Dict]]:
@@ -154,7 +153,7 @@ class PDFProcessor:
         # Добавляем эмбеддинги к чанкам
         for chunk, embedding in zip(chunks, embeddings):
             chunk['embedding'] = embedding
-
+        print('chunks', len(chunks), 'embeddings', len(embeddings))
         return chunks
 
     # Шаг 4: Вычисление хеша из бинарных данных

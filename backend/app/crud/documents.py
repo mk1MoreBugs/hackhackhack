@@ -1,4 +1,4 @@
-from sqlmodel import Session, select, update, and_
+from sqlmodel import Session, select, update, and_, desc
 from datetime import datetime
 
 
@@ -104,7 +104,7 @@ class DocumentChunkCRUD:
             self,
             query_embedding: List[float],
             limit: int = 5,
-            min_similarity: float = 0.7,
+            min_similarity: float = 0.5,
             doc_type: Optional[str] = None
     ) -> List[dict]:
         """
@@ -117,18 +117,13 @@ class DocumentChunkCRUD:
                 DocumentChunk.page_number,
                 Document.title.label("document_title"),
                 Document.doc_number,
-                (1 - DocumentChunk.embedding.cosine_distance(query_embedding)).label("similarity")
+                (1.0 - DocumentChunk.embedding.cosine_distance(query_embedding)).label("similarity")
             )
             .join(Document)
-            .where(
-                DocumentChunk.embedding.is_not(None),
-                (1 - DocumentChunk.embedding.cosine_distance(query_embedding)) >= min_similarity,
-                Document.is_active == True
-            )
-            .order_by((1 - DocumentChunk.embedding.cosine_distance(query_embedding)))
+            .order_by((1.0 - DocumentChunk.embedding.cosine_distance(query_embedding)).desc())
             .limit(limit)
         )
-
+        print(statement)
         results = self.session.exec(statement).all()
 
         return [
@@ -140,5 +135,5 @@ class DocumentChunkCRUD:
                 "doc_number": row.doc_number,
                 "similarity": float(row.similarity)
             }
-            for row in results
+            for row in results if float(row.similarity) <= min_similarity
         ]

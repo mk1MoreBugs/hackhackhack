@@ -45,7 +45,6 @@ async def search_query(
 ):
     processor = PDFProcessor()
     query_embedding = processor.search_query(search.query)
-    print(query_embedding)
 
     document_crud = DocumentChunkCRUD(session)
     result = document_crud.search_similar_chunks_sqlmodel(query_embedding)
