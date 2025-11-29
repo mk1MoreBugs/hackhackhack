@@ -9,7 +9,8 @@ def process_pdf_background(title, doc_type, doc_number, source_url):
         'SP-54.pdf',
         'глава-4-ЖК-РФ.pdf',
         'Постановление Правительства РФ от 28.01.2006 N 47.pdf',
-        'СП 255.1325800.2016.pdf'
+        #'СП 255.1325800.2016.pdf'
+        'СанПин.pdf'
     ]
 
     for file_path in file_path_list:

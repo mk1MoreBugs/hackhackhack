@@ -104,7 +104,7 @@ class DocumentChunkCRUD:
             self,
             query_embedding: List[float],
             limit: int = 5,
-            min_similarity: float = 0.5,
+            min_similarity: float = 0.3,
             doc_type: Optional[str] = None
     ) -> List[dict]:
         """

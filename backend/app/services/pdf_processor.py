@@ -11,7 +11,7 @@ from app.crud.documents import DocumentCRUD, DocumentChunkCRUD
 
 class PDFProcessor:
     def __init__(self):
-        self.embedding_model = SentenceTransformer('ai-forever/sbert_large_nlu_ru') # sentence-transformers/all-MiniLM-L6-v2 sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+        self.embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2') # sentence-transformers/all-MiniLM-L6-v2 sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 
     def search_query(self, query:str):
         return self.embedding_model.encode([query])[0].tolist()

@@ -70,6 +70,8 @@ class Settings(BaseSettings):
             path=self.POSTGRES_DB,
         )
 
+    CHAT_TOKEN: str
+
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis" or not value:
             message = (
@@ -86,6 +88,5 @@ class Settings(BaseSettings):
         self._check_default_secret("SECRET_KEY", self.SECRET_KEY)
         self._check_default_secret("POSTGRES_PASSWORD", self.POSTGRES_PASSWORD)
         return self
-
 
 settings = Settings()  # type: ignore

@@ -5,10 +5,9 @@ from fastapi import APIRouter
 
 from starlette.responses import JSONResponse
 
-from app.api.deps import SessionDep
-from app.crud.documents import DocumentChunkCRUD
+from app.api.deps import SessionDep, PDFProcessorDep
+from app.api.utils.doc_search_query import doc_search_query
 from app.models.documents import SearchQuery
-from app.services.pdf_processor import PDFProcessor
 
 router = APIRouter(prefix="/api/docs", tags=["docs"])
 
@@ -41,12 +40,9 @@ async def parse_docs(
 @router.post("/search_query")
 async def search_query(
     session: SessionDep,
-    search: SearchQuery
+    processor: PDFProcessorDep,
+    search: SearchQuery,
 ):
-    processor = PDFProcessor()
-    query_embedding = processor.search_query(search.query)
-
-    document_crud = DocumentChunkCRUD(session)
-    result = document_crud.search_similar_chunks_sqlmodel(query_embedding)
+    result = doc_search_query(session, search.query, processor)
 
     return result

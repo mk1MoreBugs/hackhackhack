@@ -8,6 +8,7 @@ services:
       - db
     environment:
       POSTGRES_PASSWORD_FILE: &postgres-password-file /run/secrets/postgres_password
+      CHAT_TOKEN:
     env_file: &env-file
       - .env
     secrets: &postgres-secret

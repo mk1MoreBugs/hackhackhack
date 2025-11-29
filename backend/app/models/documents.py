@@ -65,7 +65,7 @@ class DocumentChunk(TimestampModel, table=True):
 
     # Векторное представление
     embedding: Optional[Any] = Field(
-        sa_type=Vector(1024),  # Vector(384) для 384-мерных векторов
+        sa_type=Vector(384),  # Vector(384) для 384-мерных векторов
         description="Векторное представление текста"
     )
 
@@ -109,9 +109,9 @@ class DocumentResponse(SQLModel):
 
 
 class SearchQuery(SQLModel):
-    query: str = Field(default='СНиП')
-    limit: int = Field(default=5, ge=1, le=20)
-    min_similarity: float = Field(default=0.5, ge=-1.0, le=1.0)
+    query: str = Field(default='Удаление перегородки')
+    limit: int = Field(default=3, ge=1, le=20)
+    min_similarity: float = Field(default=0.3, ge=-1.0, le=1.0)
 
 
 class SearchResult(SQLModel):
